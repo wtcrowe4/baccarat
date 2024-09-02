@@ -43,34 +43,49 @@ class Deck {
 }
 
 class Shoe {
-    deck = new Deck();
-    decks: Deck[] = [];
     numDecks: number = 8;
+    cards: Card[] = [];
+    cardsLeft: number = this.cards.length;
 
     constructor() {
         for (let i = 0; i < this.numDecks; i++) {
-            this.deck.shuffle();
-            this.decks.push(this.deck);
+            const deck = new Deck();
+            this.cards.push(...deck.cards);
         }
+        this.cardsLeft = this.cards.length;
     }
 
     shuffle() {
         // Shuffle the shoe as a whole
-        for (let i = this.decks.length - 1; i > 0; i--) {
+        for (let i = this.cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [this.decks[i], this.decks[j]] = [this.decks[j], this.decks[i]];
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
+        
         
     }
 
     deal() {
-        for (const deck of this.decks) {
-            if (deck.cards.length > 0) {
-                return deck.cards.pop();
-            }
+        
+        if (this.cards.length > 0) {
+            const card = this.cards.pop();
+            this.cardsLeft--;
+            console.log(this.cardsLeft);
+            return card;
         }
+
+        // for (const card of this.cards) {
+        //     if (this.cards.length > 0) {
+        //         this.cards.pop();
+        //         this.cardsLeft --;
+        //         console.log(this.cardsLeft);
+        //         return card;
+                
+        //     }
+        //}
         throw new Error("No more cards in the shoe");
     }
+
 }
 
 export { Shoe, Deck, Card };

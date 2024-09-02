@@ -2,6 +2,7 @@ import { Shoe, Card } from "./shoe";
 
 class Baccarat {
     shoe: Shoe;
+    cardsLeftinShoe: number;
     bankerCards: Card[] = [];
     playerCards: Card[] = [];
     bankerScore: number = 0;
@@ -10,28 +11,41 @@ class Baccarat {
     constructor() {
         this.shoe = new Shoe();
         this.shoe.shuffle();
+        this.cardsLeftinShoe = this.shoe.cardsLeft;
         this.bankerCards = [];
         this.playerCards = [];
         this.bankerScore = 0;
         this.playerScore = 0;
     }
 
+    // checkShoeSize() {
+    //     if (this.shoe.cardsLeft < 6) {
+    //         this.shoe = new Shoe();
+    //         this.shoe.shuffle();
+    //     }
+    //     console.log("Shoe size is less than 6. New shoe created.");
+    // }
+
     deal() {
         const card1 = this.shoe.deal();
         if (card1 !== undefined) {
             this.playerCards.push(card1);
+            
         }
         const card2 = this.shoe.deal();
         if (card2 !== undefined) {
             this.bankerCards.push(card2);
+            
         }
         const card3 = this.shoe.deal();
         if (card3 !== undefined) {
             this.playerCards.push(card3);
+            
         }
         const card4 = this.shoe.deal();
         if (card4 !== undefined) {
             this.bankerCards.push(card4);
+            
         }
         
     }
@@ -61,6 +75,7 @@ class Baccarat {
                 this.bankerScore += parseInt(card.rank);
             }
         }
+        this.bankerScore %= 10;
     }
 
     determine3rdCard() {
@@ -80,6 +95,13 @@ class Baccarat {
             }
         }
 
+    }
+
+    newHand() {
+        this.playerCards = [];
+        this.bankerCards = [];
+        this.playerScore = 0;
+        this.bankerScore = 0;
     }
 
 }
