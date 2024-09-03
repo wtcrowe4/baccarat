@@ -235,6 +235,16 @@ class Baccarat {
         this.bankerScore = 0;
         this.winner = '';
         this.specialHand = null;
+        if (this.shoe.cardsLeft < 6) {
+            this.shoe = new Shoe();
+            this.shoe.shuffle();
+        }
+    }
+
+    newShoe() {
+      this.shoe = new Shoe();
+      this.shoe.shuffle();
+      this.cardsLeftinShoe = this.shoe.cardsLeft;
     }
 
 }

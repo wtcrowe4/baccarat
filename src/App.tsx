@@ -16,17 +16,14 @@ function App() {
   const [cardsLeft, setCardsLeft] = useState<number>(baccarat.cardsLeftinShoe)
 
 
-  useEffect(() => {
-    console.log(cardsLeft)
+  // useEffect(() => {
+  //   console.log(cardsLeft)
     
-  }, [cardsLeft])
+  // }, [cardsLeft])
   
-
-
   
   const newHand = () => {
     baccarat.newHand()
-    
     setPlayerCards(baccarat.playerCards)
     setBankerCards(baccarat.bankerCards)
     setPlayerScore(baccarat.playerScore)
@@ -39,13 +36,9 @@ function App() {
   const dealHand = () => {
     baccarat.newHand()
     baccarat.deal()
-
     setPlayerCards(baccarat.playerCards)
     setBankerCards(baccarat.bankerCards)
-    
     setCardsLeft(baccarat.shoe.cardsLeft)
-    console.log(cardsLeft)
-    
     baccarat.calculateScore()
     setPlayerScore(baccarat.playerScore)
     setBankerScore(baccarat.bankerScore)
@@ -66,11 +59,7 @@ function App() {
   }
 
 
-
-
   
-   
-
 
   
   return (
