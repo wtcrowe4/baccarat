@@ -10,7 +10,8 @@ function App() {
   const [bankerCards, setBankerCards] = useState<Card[]>([])
   const [playerScore, setPlayerScore] = useState<number>(0)
   const [bankerScore, setBankerScore] = useState<number>(0)
-  const [winner, setWinner] = useState<string>('')
+  const [winner, setWinner] = useState<string | null>(null)
+  const [specialHand, setSpecialHand] = useState<string | null>(null)
   const [baccarat, setBaccarat] = useState<Baccarat>(new Baccarat()) 
   const [cardsLeft, setCardsLeft] = useState<number>(baccarat.cardsLeftinShoe)
 
@@ -32,6 +33,7 @@ function App() {
     setBankerScore(baccarat.bankerScore)
     setCardsLeft(baccarat.shoe.cardsLeft)
     setWinner(baccarat.winner)
+    setSpecialHand(baccarat.specialHand)
   }
 
   const dealHand = () => {
@@ -47,9 +49,8 @@ function App() {
     baccarat.calculateScore()
     setPlayerScore(baccarat.playerScore)
     setBankerScore(baccarat.bankerScore)
-    console.log(baccarat.playerScore)
-    console.log(baccarat.bankerScore)
-
+    setSpecialHand(baccarat.specialHand)
+    setWinner(baccarat.winner)
   }
 
   const thirdCards = () => {
@@ -80,7 +81,7 @@ function App() {
           <h1>Baccarat</h1>
         </header>
 
-        <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner}/>
+        <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
         
         <div>
           <p>Player Cards: {playerCards.toString()}</p>
