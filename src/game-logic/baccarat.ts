@@ -7,6 +7,7 @@ class Baccarat {
     playerCards: Card[] = [];
     bankerScore: number = 0;
     playerScore: number = 0;
+    winner: string = '';
 
     constructor() {
         this.shoe = new Shoe();
@@ -87,21 +88,34 @@ class Baccarat {
             const card = this.shoe.deal();
             if (card !== undefined) {
                 this.playerCards.push(card);
+                this.calculateScore();
             }
         } else if (this.bankerScore <= 5) {
             const card = this.shoe.deal();
             if (card !== undefined) {
                 this.bankerCards.push(card);
+                this.calculateScore();
             }
         }
-
     }
+
+    determineWinner() {
+        if (this.playerScore > this.bankerScore) {
+            return this.winner = "Player";
+        } else if (this.playerScore < this.bankerScore) {
+            return this.winner = "Banker";
+        } else {
+           return this.winner =  "Tie";
+        }
+    }
+
 
     newHand() {
         this.playerCards = [];
         this.bankerCards = [];
         this.playerScore = 0;
         this.bankerScore = 0;
+        this.winner = '';
     }
 
 }
