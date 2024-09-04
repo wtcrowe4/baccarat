@@ -66,23 +66,12 @@ class Shoe {
     }
 
     deal() {
-        
         if (this.cards.length > 0) {
             const card = this.cards.pop();
-            this.cardsLeft--;
+            this.cardsLeft = this.cards.length;
             console.log(this.cardsLeft);
             return card;
         }
-
-        // for (const card of this.cards) {
-        //     if (this.cards.length > 0) {
-        //         this.cards.pop();
-        //         this.cardsLeft --;
-        //         console.log(this.cardsLeft);
-        //         return card;
-                
-        //     }
-        //}
         throw new Error("No more cards in the shoe");
     }
 
