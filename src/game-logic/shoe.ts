@@ -4,6 +4,15 @@ class Card {
     toString(): string {
         return `${this.rank} of ${this.suit}`;
     }
+
+    toShort(): string {
+        if (this.rank === "Ace") return 'A';
+        if (this.rank === "Jack") return 'J';
+        if (this.rank === "Queen") return 'Q';
+        if (this.rank === "King") return 'K';
+        return this.rank;
+        
+    }
 }
 
 class Deck {
@@ -77,4 +86,22 @@ class Shoe {
 
 }
 
+// Card dictionary to map Cards to image file names    
+// class CardImage {
+//     card: Card;
+
+//     constructor(card: Card) {
+//         this.card = card;
+//         return this.get(card);
+
+//     }
+
+//     get(card: Card) {
+//         return `assets/cards/${card.rank.charAt(0)}${card.suit.charAt(0)}.png`;
+//     }
+
+// }
+
+
 export { Shoe, Deck, Card };
+

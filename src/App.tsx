@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Card } from './game-logic/shoe.ts'
+import { Card, CardImage } from './game-logic/shoe.ts'
 import Baccarat from './game-logic/baccarat.ts'
 import './App.css'
 import tableImage from './assets/baccarat-table.jpg'
 import Scoreboard from './components/Scoreboard.tsx'
+import image from './assets/cards/2C.png'
 
 function App() {
   const [playerCards, setPlayerCards] = useState<Card[]>([])
@@ -58,6 +59,10 @@ function App() {
     }, 1000)
   }
 
+  const getImage = (card: Card): string => {
+    return `./assets/cards/${card.toShort()}${card.suit.charAt(0)}.png`
+  }
+
 
   
 
@@ -73,7 +78,10 @@ function App() {
         <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
         
         <div>
-          <p>Player Cards: {playerCards.toString()}</p>
+          {playerCards.map((card, index) => (
+            <img key={index} src={getImage(card)} alt={`Player Card ${index + 1}`} />
+          ))}
+          <img src={image} alt="Player Card 1" />
           <p>Banker Cards: {bankerCards.toString()}</p>
           <p>Cards Left: {cardsLeft}</p>
         </div>
