@@ -106,9 +106,9 @@ function App() {
         <header className="App-header">
           <h1>Baccarat</h1>
         </header>
-
-        <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
-        
+        <div className='scoreboard-container'>
+          <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
+        </div>
         <div>
           <h2>Player Hand</h2>
           <div className='player-hand'>
@@ -132,7 +132,7 @@ function App() {
         <button onClick={newHand}>New Hand</button>
 
       </div>
-      <img className='background-image' src={tableImage} alt="Baccarat Table" />
+      {/* <img className='background-image' src={tableImage} alt="Baccarat Table" /> */}
 
     </>
   )
