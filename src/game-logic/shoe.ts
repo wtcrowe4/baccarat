@@ -10,8 +10,13 @@ class Card {
         if (this.rank === "Jack") return 'J';
         if (this.rank === "Queen") return 'Q';
         if (this.rank === "King") return 'K';
+        if (this.rank === "10") return 'T';
         return this.rank;
         
+    }
+
+    toImageString(): string {
+        return `./assets/cards/${this.toShort()}${this.suit.charAt(0)}.png`
     }
 }
 

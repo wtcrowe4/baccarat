@@ -1,10 +1,21 @@
 import { useState, useEffect } from 'react'
-import { Card, CardImage } from './game-logic/shoe.ts'
+import { Card } from './game-logic/shoe.ts'
 import Baccarat from './game-logic/baccarat.ts'
 import './App.css'
 import tableImage from './assets/baccarat-table.jpg'
 import Scoreboard from './components/Scoreboard.tsx'
-import image from './assets/cards/2C.png'
+
+
+//Dynamic import for card images
+const importCardImage = async (card: Card) => {
+  if (!card) return null;
+  const module = await import(card.toImageString());
+  console.log(module.default);
+  return module.default;
+};
+
+
+
 
 function App() {
   const [playerCards, setPlayerCards] = useState<Card[]>([])
@@ -15,7 +26,10 @@ function App() {
   const [specialHand, setSpecialHand] = useState<string | null>(null)
   const [baccarat, setBaccarat] = useState<Baccarat>(new Baccarat()) 
   const [cardsLeft, setCardsLeft] = useState<number>(baccarat.cardsLeftinShoe)
+  const [playerCardImages, setPlayerCardImages] = useState<string[]>([]);
+  const [bankerCardImages, setBankerCardImages] = useState<string[]>([]);
 
+  
 
   // useEffect(() => {
   //   console.log(cardsLeft)
@@ -32,9 +46,11 @@ function App() {
     setCardsLeft(baccarat.shoe.cardsLeft)
     setWinner(baccarat.winner)
     setSpecialHand(baccarat.specialHand)
+    setPlayerCardImages([])
+    setBankerCardImages([])
   }
 
-  const dealHand = () => {
+  const dealHand = async () => {
     baccarat.newHand()
     baccarat.deal()
     setPlayerCards(baccarat.playerCards)
@@ -43,27 +59,43 @@ function App() {
     baccarat.calculateScore()
     setPlayerScore(baccarat.playerScore)
     setBankerScore(baccarat.bankerScore)
-    setSpecialHand(baccarat.specialHand)
-    setWinner(baccarat.winner)
+    
+    const playerImages = await loadCardImages(baccarat.playerCards);
+    const bankerImages = await loadCardImages(baccarat.bankerCards);
+    setPlayerCardImages(playerImages);
+    setBankerCardImages(bankerImages);
+
+    setTimeout(() => {
+      setSpecialHand(baccarat.specialHand)
+      setWinner(baccarat.winner)
+    }, 1000)
+
   }
 
-  const thirdCards = () => {
+  const thirdCards = async () => {
     baccarat.determine3rdCard()
     setPlayerCards(baccarat.playerCards)
     setBankerCards(baccarat.bankerCards)
     setPlayerScore(baccarat.playerScore)
     setBankerScore(baccarat.bankerScore)
     setCardsLeft(baccarat.shoe.cardsLeft)
+
+    const playerImages = await loadCardImages(baccarat.playerCards);
+    const bankerImages = await loadCardImages(baccarat.bankerCards);
+    setPlayerCardImages(playerImages);
+    setBankerCardImages(bankerImages);
+
     setTimeout(() => {
+      setSpecialHand(baccarat.specialHand)
       setWinner(baccarat.determineWinner())
     }, 1000)
   }
 
-  const getImage = (card: Card): string => {
-    return `./assets/cards/${card.toShort()}${card.suit.charAt(0)}.png`
-  }
-
-
+  
+  const loadCardImages = async (cards: Card[]) => {
+    const images = await Promise.all(cards.map(card => importCardImage(card)));
+    return images;
+  };
   
 
   
@@ -78,11 +110,20 @@ function App() {
         <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
         
         <div>
-          {playerCards.map((card, index) => (
-            <img key={index} src={getImage(card)} alt={`Player Card ${index + 1}`} />
-          ))}
-          <img src={image} alt="Player Card 1" />
-          <p>Banker Cards: {bankerCards.toString()}</p>
+          <h2>Player Hand</h2>
+          <div className='player-hand'>
+            {playerCardImages.map((image, index) => (
+              <img className='card-image' src={image} alt={`Player card ${index + 1}`} />
+            ))}
+          </div>
+          <h2>Banker Hand</h2>
+          <div className='banker-hand'>
+            {bankerCardImages.map((image, index) => (
+              <img className='card-image' src={image} alt={`Banker card ${index + 1}`} />
+            ))}
+          </div>
+          {/* <p>Player Cards: {playerCards.toString()}</p>
+          <p>Banker Cards: {bankerCards.toString()}</p> */}
           <p>Cards Left: {cardsLeft}</p>
         </div>
         
