@@ -2,30 +2,30 @@ import { useState, useEffect } from 'react'
 import { Card } from './game-logic/shoe.ts'
 import Baccarat from './game-logic/baccarat.ts'
 import './App.css'
-import tableImage from './assets/baccarat-table.jpg'
 import Scoreboard from './components/Scoreboard.tsx'
-
+import BeadRoad from './components/scoreboard/BeadRoad.tsx'
+import { getImageURL } from './utils/image-util.ts'
 
 //Dynamic import for card images
 const importCardImage = async (card: Card) => {
   if (!card) return null;
-  const module = await import(card.toImageString());
+  const module = await import(/* @vite-ignore */ card.toImageString());
   console.log(module.default);
   return module.default;
 };
 
 
 
-
 function App() {
+  const [baccarat, setBaccarat] = useState<Baccarat>(new Baccarat()) 
   const [playerCards, setPlayerCards] = useState<Card[]>([])
   const [bankerCards, setBankerCards] = useState<Card[]>([])
   const [playerScore, setPlayerScore] = useState<number>(0)
   const [bankerScore, setBankerScore] = useState<number>(0)
   const [winner, setWinner] = useState<string | null>(null)
   const [specialHand, setSpecialHand] = useState<string | null>(null)
-  const [baccarat, setBaccarat] = useState<Baccarat>(new Baccarat()) 
   const [cardsLeft, setCardsLeft] = useState<number>(baccarat.cardsLeftinShoe)
+  const [gameHistory, setGameHistory] = useState<string[]>([])
   const [playerCardImages, setPlayerCardImages] = useState<string[]>([]);
   const [bankerCardImages, setBankerCardImages] = useState<string[]>([]);
 
@@ -108,6 +108,7 @@ function App() {
         </header>
         <div className='scoreboard-container'>
           <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
+          <BeadRoad />
         </div>
         <div className='hands'>
           
@@ -134,8 +135,7 @@ function App() {
         <button onClick={newHand}>New Hand</button>
 
       </div>
-      {/* <img className='background-image' src={tableImage} alt="Baccarat Table" /> */}
-
+      
     </>
   )
 }

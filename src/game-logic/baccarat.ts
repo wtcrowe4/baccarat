@@ -9,6 +9,7 @@ class Baccarat {
     playerScore: number = 0;
     winner: string | null = null;
     specialHand: SpecialHand | null = null;
+    history: handData[] = [];
 
     constructor() {
         this.shoe = new Shoe();
@@ -18,6 +19,9 @@ class Baccarat {
         this.playerCards = [];
         this.bankerScore = 0;
         this.playerScore = 0;
+        this.winner = null;
+        this.specialHand = null;
+        this.history = [];
     }
 
     deal() {
@@ -173,7 +177,7 @@ class Baccarat {
         const bankerSecondCard = this.bankerCards[1];
 
         // Natural Win/Tie
-        if (this.playerScore >= 8 || this.bankerScore >= 8) {
+        if (this.playerScore >= 8 || this.bankerScore >= 8  && this.playerCards.length === 2 && this.bankerCards.length === 2) {
             if (this.playerScore === this.bankerScore) {
             this.specialHand = SpecialHand.NaturalTie;
             this.winner = 'Tie';
@@ -186,11 +190,16 @@ class Baccarat {
             }
         }
 
-    
-        // if (/*Condition for Natural Win*/  ) {
-        //   this.specialHand = SpecialHand.NaturalWin;
-        // } else if (/* Condition for Natural Tie*/) {
-        //   this.specialHand = SpecialHand.NaturalTie;
+        // Dragon Bonus
+        if (this.bankerScore === 7 && this.playerCards.length === 3) {
+            this.specialHand = SpecialHand.DragonBonus;
+        }
+
+        // Panda 8
+        if (this.playerScore === 8 && this.playerCards.length === 3) {
+            this.specialHand = SpecialHand.Panda8;
+        }
+        
         // } else if (/* Condition for Dragon Bonus*/) {
         //   this.specialHand = SpecialHand.DragonBonus;
         // } else if (/* Condition for Panda 8*/) {
@@ -231,7 +240,36 @@ class Baccarat {
       this.cardsLeftinShoe = this.shoe.cardsLeft;
     }
 
+
+    addHandToHistory() {
+        const hand: handData = {
+            playerCards: this.playerCards,
+            bankerCards: this.bankerCards,
+            playerScore: this.playerScore,
+            bankerScore: this.bankerScore,
+            winner: this.winner,
+            specialHand: this.specialHand,
+        };
+        this.history.push(hand);
+    }
+    
+
+
+
+  }
+
+
+// interface for scoreboard
+interface handData {
+    playerCards: Card[];
+    bankerCards: Card[];
+    playerScore: number;
+    bankerScore: number;
+    winner: string | null;
+    specialHand: SpecialHand | null;
+
 }
+
 
 
 // Enum for special hands
