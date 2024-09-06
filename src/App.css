@@ -37,11 +37,27 @@
   width: 25vw;
 }
 
+.hands {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 banker-hand, player-hand {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  margin: 10px;
+}
+
+.vertical-divider {
+  border-left: 3px solid black;
+  height: 200px;
+  margin-right: 5px;
+  margin-left:5px;
 }
 
 .card-image {

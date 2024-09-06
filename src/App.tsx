@@ -109,24 +109,26 @@ function App() {
         <div className='scoreboard-container'>
           <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
         </div>
-        <div>
-          <h2>Player Hand</h2>
+        <div className='hands'>
+          
           <div className='player-hand'>
+            <h2>Player Hand</h2>
             {playerCardImages.map((image, index) => (
               <img className='card-image' src={image} alt={`Player card ${index + 1}`} />
             ))}
           </div>
-          <h2>Banker Hand</h2>
+          <div className='vertical-divider'></div>
           <div className='banker-hand'>
+            <h2>Banker Hand</h2>
             {bankerCardImages.map((image, index) => (
               <img className='card-image' src={image} alt={`Banker card ${index + 1}`} />
             ))}
           </div>
           {/* <p>Player Cards: {playerCards.toString()}</p>
           <p>Banker Cards: {bankerCards.toString()}</p> */}
-          <p>Cards Left: {cardsLeft}</p>
+          
         </div>
-        
+        <p>Cards Left: {cardsLeft}</p>
         <button onClick={dealHand}>Deal Hand</button>
         <button onClick={thirdCards}>Third Cards</button>
         <button onClick={newHand}>New Hand</button>
