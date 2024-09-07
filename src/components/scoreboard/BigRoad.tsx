@@ -1,4 +1,3 @@
-import React from 'react';
 import './BigRoad.css'; // Make sure to create and style this CSS file
 
 interface BigRoadProps {

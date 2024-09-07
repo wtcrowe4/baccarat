@@ -4,6 +4,8 @@ import Baccarat from './game-logic/baccarat.ts'
 import './App.css'
 import Scoreboard from './components/Scoreboard.tsx'
 import BeadRoad from './components/scoreboard/BeadRoad.tsx'
+import BigRoad from './components/scoreboard/BigRoad.tsx'
+import DerivedRoads from './components/scoreboard/DerivedRoads.tsx'
 import { getImageURL } from './utils/image-util.ts'
 
 //Dynamic import for card images
