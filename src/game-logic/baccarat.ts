@@ -250,7 +250,9 @@ class Baccarat {
             winner: this.winner,
             specialHand: this.specialHand,
         };
-        this.history.push(hand);
+        if (hand.winner !== '' || hand.winner !== null) {
+          this.history.push(hand);
+        }
     }
     
 

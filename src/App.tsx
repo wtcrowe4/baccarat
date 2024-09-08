@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card } from './game-logic/shoe.ts'
 import Baccarat from './game-logic/baccarat.ts'
 import './App.css'
 import Scoreboard from './components/Scoreboard.tsx'
-import BeadRoad from './components/scoreboard/BeadRoad.tsx'
-import BigRoad from './components/scoreboard/BigRoad.tsx'
-import DerivedRoads from './components/scoreboard/DerivedRoads.tsx'
-import { getImageURL } from './utils/image-util.ts'
+//import BeadRoad from './components/scoreboard/BeadRoad.tsx'
+//import BigRoad from './components/scoreboard/BigRoad.tsx'
+//import DerivedRoads from './components/scoreboard/DerivedRoads.tsx'
+//import { getImageURL } from './utils/image-util.ts'
 
 //Dynamic import for card images
 const importCardImage = async (card: Card) => {
@@ -15,6 +15,7 @@ const importCardImage = async (card: Card) => {
   console.log(module.default);
   return module.default;
 };
+
 
 
 
@@ -27,7 +28,7 @@ function App() {
   const [winner, setWinner] = useState<string | null>(null)
   const [specialHand, setSpecialHand] = useState<string | null>(null)
   const [cardsLeft, setCardsLeft] = useState<number>(baccarat.cardsLeftinShoe)
-  const [gameHistory, setGameHistory] = useState<string[]>([])
+  const [gameHistory, setGameHistory] = useState<Baccarat["history"][]>([])
   const [playerCardImages, setPlayerCardImages] = useState<string[]>([]);
   const [bankerCardImages, setBankerCardImages] = useState<string[]>([]);
 
@@ -72,6 +73,13 @@ function App() {
       setWinner(baccarat.winner)
     }, 1000)
 
+    baccarat.addHandToHistory()
+    setGameHistory([baccarat.history])
+
+    console.log(baccarat.history)
+    console.log(gameHistory)
+
+
   }
 
   const thirdCards = async () => {
@@ -91,6 +99,13 @@ function App() {
       setSpecialHand(baccarat.specialHand)
       setWinner(baccarat.determineWinner())
     }, 1000)
+
+    baccarat.addHandToHistory()
+    setGameHistory([baccarat.history])
+
+    console.log(baccarat.history)
+    console.log(gameHistory)
+
   }
 
   
@@ -109,8 +124,7 @@ function App() {
           <h1>Baccarat</h1>
         </header>
         <div className='scoreboard-container'>
-          <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand}/>
-          <BeadRoad />
+          <Scoreboard playerScore={playerScore} bankerScore={bankerScore} winner={winner} specialHand={specialHand} history={gameHistory} />
         </div>
         <div className='hands'>
           

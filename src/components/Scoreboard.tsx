@@ -1,14 +1,16 @@
 
-
+import Baccarat from "../game-logic/baccarat";
 
 type ScoreboardProps = {
     playerScore: number;
     bankerScore: number;
     winner: string | null;
     specialHand: string | null;
+    history: Baccarat["history"];
 };
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ playerScore, bankerScore, winner, specialHand }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ playerScore, bankerScore, winner, specialHand, history }) => {
+    console.log('Scoreboard: ' + history)
     return (
         <div className="scoreboard">
             <h2>Scoreboard</h2>
