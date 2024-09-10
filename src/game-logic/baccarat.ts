@@ -200,10 +200,22 @@ class Baccarat {
             this.specialHand = SpecialHand.Panda8;
         }
         
-        // } else if (/* Condition for Dragon Bonus*/) {
-        //   this.specialHand = SpecialHand.DragonBonus;
-        // } else if (/* Condition for Panda 8*/) {
-        //   this.specialHand = SpecialHand.Panda8;
+        // Big Small
+        if (this.playerScore >= 8 && this.playerScore <= 9 && this.playerCards.length === 2) {
+            this.specialHand = SpecialHand.BigSmall;
+        }
+
+        // Perfect Pair
+        if (playerFirstCard.rank === playerSecondCard.rank) {
+            this.specialHand = SpecialHand.PerfectPair;
+        }
+
+        // Pair Plus
+        if (bankerFirstCard.rank === bankerSecondCard.rank) {
+            this.specialHand = SpecialHand.PairPlus;
+        }
+
+        
         // } else if (/* Condition for Big Small*/) {
         //   this.specialHand = SpecialHand.BigSmall;
         // } else if (/* Condition for Perfect Pair*/) {
