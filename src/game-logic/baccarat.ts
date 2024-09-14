@@ -10,6 +10,8 @@ class Baccarat {
     winner: string | null = null;
     specialHand: SpecialHand | null = null;
     history: handData[] = [];
+    userBet: { [key: string]: number } = { 'Player': 0, 'Banker': 0, 'Tie': 0 };
+    userBalance: number = 0;
 
     constructor() {
         this.shoe = new Shoe();
@@ -227,9 +229,74 @@ class Baccarat {
         // }
     }
 
+    
+
     determinePayouts() {
-        // Logic to determine the payouts based on the winner and special hand
-        // ...
+        // Logic to determine the payouts based on the winner and special hand using payouts object
+                const betTypes = Object.keys(this.userBet) as (keyof payoutOdds)[];
+
+                for (const betType of betTypes) {
+                  const betAmount = this.userBet[betType];
+                  if (betAmount > 0) {
+                    switch (betType) {
+                      case 'Player':
+                        if (this.winner === 'Player') {
+                          this.userBalance += betAmount * payouts.Player;
+                        }
+                        break;
+                      case 'Banker':
+                        if (this.winner === 'Banker') {
+                          this.userBalance += betAmount * payouts.Banker;
+                        }
+                        break;
+                      case 'Tie':
+                        if (this.winner === 'Tie') {
+                          this.userBalance += betAmount * payouts.Tie;
+                        }
+                        break;
+                      case 'PlayerPair':
+                        if (this.specialHand === SpecialHand.PerfectPair && this.playerCards[0].rank === this.playerCards[1].rank) {
+                          this.userBalance += betAmount * payouts.PlayerPair;
+                        }
+                        break;
+                      case 'BankerPair':
+                        if (this.specialHand === SpecialHand.PerfectPair && this.bankerCards[0].rank === this.bankerCards[1].rank) {
+                          this.userBalance += betAmount * payouts.BankerPair;
+                        }
+                        break;
+                      case 'PerfectPair':
+                        if (this.specialHand === SpecialHand.PerfectPair) {
+                          this.userBalance += betAmount * payouts.PerfectPair;
+                        }
+                        break;
+                      case 'Big':
+                        if (this.specialHand === SpecialHand.BigSmall) {
+                          this.userBalance += betAmount * payouts.Big;
+                        }
+                        break;
+                      case 'Small':
+                        if (this.specialHand === SpecialHand.BigSmall) {
+                          this.userBalance += betAmount * payouts.Small;
+                        }
+                        break;
+                      case 'Panda8':
+                        if (this.specialHand === SpecialHand.Panda8) {
+                          this.userBalance += betAmount * payouts.Panda8;
+                        }
+                        break;
+                      case 'DragonBonus':
+                        if (this.specialHand === SpecialHand.DragonBonus) {
+                          this.userBalance += betAmount * payouts.DragonBonus;
+                        }
+                        break;
+                      default:
+                        break;
+                    }
+                  }
+                }
+
+
+        
     }
 
 
@@ -295,6 +362,37 @@ enum SpecialHand {
     BigSmall = 'Big Small',
     PerfectPair = 'Perfect Pair',
     PairPlus = 'Pair Plus',
-  }
+}
+
+//Payouts for each bet
+interface payoutOdds {
+  Player: number;
+  Banker: number;
+  Tie: number;
+  PlayerPair: number;
+  BankerPair: number;
+  PerfectPair: number;
+  Big: number;
+  Small: number;
+  Panda8: number;
+  DragonBonus: number;
+}
+
+const payouts : payoutOdds = {
+  Player: 1.0,
+  Banker: 0.95,
+  Tie: 8.0,
+  PlayerPair: 11.0,
+  BankerPair: 11.0,
+  PerfectPair: 25.0,
+  Big: 0.54,
+  Small: 1.5,
+  Panda8: 25.0,
+  DragonBonus: 30.0,
+};
+
+ 
+
+
 
 export default Baccarat;
