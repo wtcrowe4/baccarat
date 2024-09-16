@@ -1,30 +1,21 @@
-
+import Baccarat from "../../game-logic/baccarat";
 
 interface DerivedRoadProps {
-    results: string[];
+    results: Baccarat["history"];
 }
 
 const DerivedRoads: React.FC<DerivedRoadProps> = ({ results }) => {
     return (
         
         <div className='derived-roads'>
-            {results.map((result, index) => {
-                let className = '';
-                switch (result) {
-                    case 'B':
-                        className = 'banker';
-                        break;
-                    case 'P':
-                        className = 'player';
-                        break;
-                    case 'T':
-                        className = 'tie';
-                        break;
-                    default:
-                        className = '';
-                }
-                return <div key={index} className={`cell ${className}`}>{result}</div>;
-            })}
+            {results.map((result, index) => (
+                <div key={index} className='result'>
+                    {JSON.stringify(result)}
+                </div>
+            ))}
+              
+                        
+            
         </div>            
             
          

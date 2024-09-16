@@ -1,5 +1,9 @@
 
 import Baccarat from "../game-logic/baccarat";
+import BeadRoad from "./scoreboard/BeadRoad";
+import BigRoad from "./scoreboard/BigRoad";
+import DerivedRoads from "./scoreboard/DerivedRoads";
+
 
 type ScoreboardProps = {
     playerScore: number;
@@ -19,7 +23,16 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ playerScore, bankerScore, winne
             {winner === 'Player' || winner === 'Banker' ? <p>Winner: {winner}</p> : null}
             {winner === 'Tie' ? <p>Hand is a Tie</p> : null}
             {specialHand ? <p>Special Hand: {specialHand}</p> : null}
+
+            <div className="scoreboard__road-container">
+                {/* <BeadRoad results={history} />
+                <BigRoad results={history} /> */}
+                <DerivedRoads results={history} />
+            </div>
+        
         </div>
+
+        
     );
 };
 
